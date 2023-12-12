@@ -111,9 +111,14 @@ export async function authenticate(
         case 'CredentialsSignin':
           return 'Invalid credentials.';
         default:
+          console.error(`authenticate error: ${error.type} ${error.message}`);
           return 'Something went wrong.';
       }
     }
     throw error;
   }
+}
+
+export async function authenticateOAuth(provider: string) {
+  return signIn(provider);
 }

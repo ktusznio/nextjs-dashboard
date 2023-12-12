@@ -1,6 +1,7 @@
 // separate from auth.config.ts because bcrypt relies on Node APIs not available in Next.js Middleware.
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 import { z } from 'zod';
 import bcrypt from 'bcrypt';
 
@@ -28,6 +29,10 @@ export const { auth, signIn, signOut } = NextAuth({
         console.log('Invalid credentials');
         return null;
       },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
 });

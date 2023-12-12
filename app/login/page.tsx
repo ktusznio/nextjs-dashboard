@@ -1,5 +1,7 @@
 import AcmeLogo from '@/app/ui/acme-logo';
-import LoginForm from '@/app/ui/login-form';
+import { CredentialsForm } from '@/app/ui/login/credentials-form';
+import { lusitana } from '@/app/ui/fonts';
+import { GoogleLoginButton } from '@/app/ui/login/google-login-button';
 
 export default function LoginPage() {
   return (
@@ -10,7 +12,11 @@ export default function LoginPage() {
             <AcmeLogo />
           </div>
         </div>
-        <LoginForm />
+        <h1 className={`${lusitana.className} mb-3 text-center text-2xl`}>
+          Log in to continue.
+        </h1>
+        <GoogleLoginButton />
+        <CredentialsForm />
       </div>
     </main>
   );
