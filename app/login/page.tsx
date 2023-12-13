@@ -1,5 +1,4 @@
 import AcmeLogo from '@/app/ui/acme-logo';
-import { CredentialsForm } from '@/app/ui/login/credentials-form';
 import { lusitana } from '@/app/ui/fonts';
 import { GoogleLoginButton } from '@/app/ui/login/google-login-button';
 
@@ -16,7 +15,6 @@ export default function LoginPage() {
           Log in to continue.
         </h1>
         <GoogleLoginButton />
-        <CredentialsForm />
       </div>
     </main>
   );

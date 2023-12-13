@@ -1,9 +1,21 @@
-import NextAuth from 'next-auth';
-import { authConfig } from './auth.config';
+import { getToken } from 'next-auth/jwt';
+import { NextRequest, NextResponse } from 'next/server';
 
-export default NextAuth(authConfig).auth;
+export async function middleware(req: NextRequest) {
+  // Restrict access to the /dashboard route
+  if (req.nextUrl.pathname.startsWith('/dashboard')) {
+    const session = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
 
-export const config = {
-  // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
-  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
-};
+    // Redirect to login if not authenticated
+    if (!session) {
+      const url = req.nextUrl.clone();
+      url.pathname = '/api/auth/signin';
+      return NextResponse.redirect(url);
+    }
+  }
+
+  return NextResponse.next();
+}
