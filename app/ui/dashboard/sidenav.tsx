@@ -2,8 +2,8 @@ import Link from 'next/link';
 import NavLinks from '@/app/ui/dashboard/nav-links';
 import AcmeLogo from '@/app/ui/acme-logo';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { LogoutButton } from '../login/logout-button';
+import { authOptions } from '@/auth.config';
 
 export default async function SideNav() {
   // Get user session token
