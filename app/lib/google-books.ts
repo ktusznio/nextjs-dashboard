@@ -4,9 +4,6 @@ const GOOGLE_BOOKS_API_URL = 'https://www.googleapis.com/books/v1';
 
 // Fetches the results of a Google Books API search.
 export async function searchByTitle(title: string): Promise<ApiResponse> {
-  if (!process.env.GOOGLE_BOOKS_API_KEY) {
-    throw new Error('Missing environment variable GOOGLE_BOOKS_API_KEY');
-  }
   if (!title) {
     return Promise.resolve({ kind: '', totalItems: 0, items: [] });
   }
