@@ -2,7 +2,7 @@ import Search from '@/app/ui/search';
 import { lusitana } from '@/app/ui/fonts';
 import { searchByTitle } from '@/app/lib/google-books';
 import { BookSearchResult } from '@/app/ui/bookshelf/BookSearchResult';
-import { prisma } from '@/app/lib/prisma';
+import prisma from '@/app/lib/prisma';
 
 export default async function Page({
   searchParams,
