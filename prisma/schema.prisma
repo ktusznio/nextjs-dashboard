@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model User {
+  id String @id @default(cuid())
+
+  shelves Shelf[]
+
+  name     String?
+  email    String? @unique
+  password String?
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map(name: "updated_at")
+
+  @@map("users")
+}
+
+model Shelf {
+  id Int @id @default(autoincrement())
+
+  books Book[]
+  user  User   @relation(fields: [userId], references: [id])
+
+  name   String
+  userId String @map(name: "user_id")
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+  @@map("shelves")
+}
+
+model Book {
+  id Int @id @default(autoincrement())
+
+  shelf Shelf @relation(fields: [shelfId], references: [id])
+
+  // TODO authors[]
+  authors                Author[]
+  category               String
+  description            String
+  googleBooksId          String   @map(name: "google_books_id")
+  googleBooksPreviewUrl  String   @map(name: "google_books_preview_url")
+  imageUrlExtraLarge     String   @map(name: "image_url_extra_large")
+  imageUrlLarge          String   @map(name: "image_url_large")
+  imageUrlMedium         String   @map(name: "image_url_medium")
+  imageUrlSmall          String   @map(name: "image_url_small")
+  imageUrlSmallThumbnail String   @map(name: "image_url_small_thumbnail")
+  imageUrlThumbnail      String   @map(name: "image_url_thumbnail")
+  language               String
+  pageCount              Int      @map(name: "page_count")
+  publishedDate          String   @map(name: "published_date")
+  publisher              String
+  shelfId                Int      @map(name: "shelf_id")
+  title                  String
+
+  @@map("books")
+}
+
+model Author {
+  id    Int    @id @default(autoincrement())
+  name  String
+  books Book[]
+
+  @@map("authors")
+}
+
+model Customers {
+  id        String @id @default(cuid()) @db.Uuid
+  name      String @db.VarChar(255)
+  email     String @db.VarChar(255)
+  image_url String @db.VarChar(255)
+
+  @@map("customers")
+}
+
+model Invoices {
+  id          String   @id @default(cuid()) @db.Uuid
+  customer_id String   @db.Uuid
+  amount      Int
+  status      String   @db.VarChar(255)
+  date        DateTime @db.Date
+
+  @@map("invoices")
+}
+
+model Revenue {
+  month   String @unique @db.VarChar(4)
+  revenue Int
+
+  @@map("revenue")
+}
